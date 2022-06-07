@@ -37,7 +37,7 @@ for index in random_problems:
     text_B = text_B[:-2]
     text_B += ".\n"
 
-    text = "Question: Which option do you prefer?\n\n"
+    text = "Q: Which option do you prefer?\n\n"
     if np.random.choice([True, False]):
         text += text_A
         text += text_B
@@ -45,7 +45,7 @@ for index in random_problems:
         text += text_B
         text += text_A
 
-    text += "\nAnswer: Option"
+    text += "\nA: Option"
 
     action, log_probs = act(text)
     #action, log_probs = np.random.choice(['F', 'J']), {" F": 0.0, " J": 0.0}
