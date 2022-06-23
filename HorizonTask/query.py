@@ -10,7 +10,7 @@ env = gym.make('wilson2014horizon-v0')
 engine = "text-davinci-002"
 
 def act(text):
-    openai.api_key = "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"
+    openai.api_key = "YOURKEY"
     response = openai.Completion.create(
         engine = engine,
         prompt = text,
@@ -66,7 +66,7 @@ def step(history, action, rewards, t):
 
     return history, trials_left_string
 
-num_tasks = 320
+num_tasks = 320 * 10
 
 for task in range(num_tasks):
     actions = [None, None, None, None]
@@ -78,7 +78,6 @@ for task in range(num_tasks):
         prompt = instructions + history + "\n" + trials_left + question
         print(prompt)
         action = act(prompt)
-        #action = np.random.choice(['F', 'J'])
         if action == 'F':
             action_to_append = 0
         elif action == 'J':

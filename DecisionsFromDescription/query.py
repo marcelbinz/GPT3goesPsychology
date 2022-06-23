@@ -7,7 +7,7 @@ import numpy as np
 engine = "text-davinci-002"
 
 def act(text):
-    openai.api_key = "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"
+    openai.api_key = "YOURKEY"
     response = openai.Completion.create(
         engine = engine,
         prompt = text,
@@ -29,7 +29,7 @@ task2 = default_question + "- Option F: 33% chance of 2,500 dollars (67% chance 
 "- Option J: 34% chance of 2,400 dollars (66% chance of 0 dollars).\n" +  "\nA: Option"
 tasks.append(task2)
 
-task3 = "- Option F: 80% chance of 4,000 dollars (20% chance of 0 dollars).\n"\
+task3 = default_question + "- Option F: 80% chance of 4,000 dollars (20% chance of 0 dollars).\n"\
 "- Option J: 100% guarantee of 3,000 dollars.\n" + "\nA: Option"
 tasks.append(task3)
 
@@ -98,7 +98,7 @@ data = []
 for i, task in enumerate(tasks):
     print(task)
     action, log_probs = act(task)
-    #action, log_probs = np.random.choice(['F', 'J']), {" F": 0.0, " J": 0.0}
+    print(log_probs)
     row = [i+1, action, log_probs[" F"], log_probs[" J"]]
     print(row)
     data.append(row)

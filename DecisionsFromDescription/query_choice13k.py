@@ -5,7 +5,7 @@ import openai
 engine = "text-davinci-002"
 
 def act(text):
-    openai.api_key = "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"
+    openai.api_key = "YOURKEY"
     response = openai.Completion.create(
         engine = engine,
         prompt = text,
@@ -17,9 +17,10 @@ def act(text):
 
 c13k_problems = pd.read_json("data/c13k_problems.json", orient='index')
 
-random_problems = np.random.choice(np.arange(len(c13k_problems)), size=1000, replace=False)
+print(len(c13k_problems))
+random_problems = np.arange(len(c13k_problems))
 data = []
-for index in random_problems:
+for t, index in enumerate(random_problems):
 
     value_A = 0
     text_A = "- Option F: "
@@ -48,13 +49,23 @@ for index in random_problems:
     text += "\nA: Option"
 
     action, log_probs = act(text)
-    #action, log_probs = np.random.choice(['F', 'J']), {" F": 0.0, " J": 0.0}
+
+    # fix if answer is not in top 2
+    if not (" F" in log_probs):
+        log_probs[" F"] = -9999
+    if not (" J" in log_probs):
+        log_probs[" J"] = -9999
+
 
     row = [index, value_A, value_B, action, log_probs[" F"], log_probs[" J"]]
     data.append(row)
     print(text)
     print(action)
     print()
+    if ((t % 500) == 0):
+        df = pd.DataFrame(data, columns=['task', 'valueA', 'valueB', 'action', 'logprobA', 'logprobB'])
+        print(df)
+        df.to_csv('data/' + engine + '/experiment_choice13k.csv')
 
 df = pd.DataFrame(data, columns=['task', 'valueA', 'valueB', 'action', 'logprobA', 'logprobB'])
 print(df)

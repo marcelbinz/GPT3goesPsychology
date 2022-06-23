@@ -4,7 +4,7 @@ from scipy.special import softmax
 import openai
 
 def act(text):
-    openai.api_key = "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"
+    openai.api_key = "YOURKEY"
     response = openai.Completion.create(
         engine = engine,
         prompt = text,
@@ -21,7 +21,7 @@ def transition(action):
 
 action_to_index = {"D": 0, "F": 1, "J": 2, "K": 3}
 
-num_runs = 100
+num_runs = 200
 num_trials = 20
 engine = "text-davinci-002"
 
@@ -49,10 +49,7 @@ for run in range(num_runs):
 
         print(total_text)
         print()
-        '''
-        numerical_action1 = np.random.choice([0, 1]) # TODO
-        action1 = 'X' if numerical_action1 == 0 else 'Y'
-        '''
+
         action1 = act(total_text)
 
         total_text += " " + action1 + ".\n"
@@ -72,15 +69,6 @@ for run in range(num_runs):
 
         print(total_text)
         print()
-
-        '''
-        numerical_action2 = np.random.choice([0, 1])
-
-        if state == 'X':
-            action2 = 'D' if numerical_action2 == 0 else 'F'
-        else:
-            action2 = 'J' if numerical_action2 == 0 else 'K'
-        '''
 
         action2 = act(total_text)
 
